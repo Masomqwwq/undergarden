@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.neoforged.neoforge.network.PacketDistributor;
 import quek.undergarden.UndergardenConfig;
 import quek.undergarden.network.UndergardenPortalSoundPacket;
@@ -31,9 +31,9 @@ import java.util.Optional;
 
 public class UndergardenPortalForcer {
 
-	private static final BlockState FRAME = !BuiltInRegistries.BLOCK.containsKey(Objects.requireNonNull(ResourceLocation.tryParse(UndergardenConfig.Common.return_portal_frame_block_id.get()))) ? Blocks.STONE_BRICKS.defaultBlockState() : BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(UndergardenConfig.Common.return_portal_frame_block_id.get())).defaultBlockState();
+	private static final BlockState FRAME = !BuiltInRegistries.BLOCK.containsKey(Objects.requireNonNull(ResourceLocation.tryParse(UndergardenConfig.Common.return_portal_frame_block_id.get()))) ? Blocks.STONE_BRICKS.defaultBlockState() : BuiltInRegistries.BLOCK.getValue(ResourceLocation.tryParse(UndergardenConfig.Common.return_portal_frame_block_id.get())).defaultBlockState();
 
-	public static final DimensionTransition.PostDimensionTransition PLAY_PORTAL_SOUND = UndergardenPortalForcer::playPortalSound;
+	public static final TeleportTransition.PostTeleportTransition PLAY_PORTAL_SOUND = UndergardenPortalForcer::playPortalSound;
 
 	private static void playPortalSound(Entity entity) {
 		if (entity instanceof ServerPlayer player) {
@@ -59,7 +59,7 @@ public class UndergardenPortalForcer {
 		double d1 = -1.0;
 		BlockPos blockPos1 = null;
 		WorldBorder worldBorder = level.getWorldBorder();
-		int minHeight = Math.min(level.getMaxBuildHeight(), level.getLogicalHeight()) - 1;
+		int minHeight = Math.min(level.getMaxY(), level.getLogicalHeight()) - 1;
 		BlockPos.MutableBlockPos mutablePos = pos.mutable();
 
 		for (BlockPos.MutableBlockPos mutablePos1 : BlockPos.spiralAround(pos, 16, Direction.EAST, Direction.SOUTH)) {
@@ -72,7 +72,7 @@ public class UndergardenPortalForcer {
 					if (canPortalReplaceBlock(level, mutablePos1)) {
 						int i1 = y;
 
-						while (y > level.getMinBuildHeight() && canPortalReplaceBlock(level, mutablePos1.move(Direction.DOWN))) {
+						while (y > level.getMinY() && canPortalReplaceBlock(level, mutablePos1.move(Direction.DOWN))) {
 							y--;
 						}
 

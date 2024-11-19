@@ -3,7 +3,7 @@ package quek.undergarden.block.portal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.NetherPortalBlock;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ public class UndergardenPortalShape {
 	private static final int MIN_HEIGHT = 2;
 	public static final int MAX_HEIGHT = 21;
 	private static final BlockBehaviour.StatePredicate FRAME = (state, getter, pos) -> state.is(UGTags.Blocks.PORTAL_FRAME_BLOCKS);
-	private final LevelAccessor level;
+	private final LevelReader level;
 	private final Direction.Axis axis;
 	private final Direction rightDir;
 	private int numPortalBlocks;
@@ -24,7 +24,7 @@ public class UndergardenPortalShape {
 	private int height;
 	private final int width;
 
-	public UndergardenPortalShape(LevelAccessor level, BlockPos bottomLeftPos, Direction.Axis axis) {
+	public UndergardenPortalShape(LevelReader level, BlockPos bottomLeftPos, Direction.Axis axis) {
 		this.level = level;
 		this.axis = axis;
 		this.rightDir = axis == Direction.Axis.X ? Direction.WEST : Direction.SOUTH;
@@ -43,7 +43,7 @@ public class UndergardenPortalShape {
 
 	@Nullable
 	private BlockPos calculateBottomLeft(BlockPos pos) {
-		int i = Math.max(this.level.getMinBuildHeight(), pos.getY() - MAX_HEIGHT);
+		int i = Math.max(this.level.getMinY(), pos.getY() - MAX_HEIGHT);
 
 		while (pos.getY() > i && isEmpty(this.level.getBlockState(pos.below()))) {
 			pos = pos.below();
@@ -138,9 +138,9 @@ public class UndergardenPortalShape {
 		return this.numPortalBlocks;
 	}
 
-	public void createPortalBlocks() {
+	public void createPortalBlocks(LevelAccessor level) {
 		BlockState blockstate = UGBlocks.UNDERGARDEN_PORTAL.get().defaultBlockState().setValue(UndergardenPortalBlock.AXIS, this.axis);
-		BlockPos.betweenClosed(this.bottomLeft, this.bottomLeft.relative(Direction.UP, this.height - 1).relative(this.rightDir, this.width - 1)).forEach(pos -> this.level.setBlock(pos, blockstate, 18));
+		BlockPos.betweenClosed(this.bottomLeft, this.bottomLeft.relative(Direction.UP, this.height - 1).relative(this.rightDir, this.width - 1)).forEach(pos -> level.setBlock(pos, blockstate, 18));
 	}
 
 	public boolean isComplete() {

@@ -6,7 +6,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,11 +28,11 @@ public class GloomgourdBlock extends PumpkinBlock {
 	}
 
 	@Override
-	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
 		if (!stack.canPerformAction(net.neoforged.neoforge.common.ItemAbilities.SHEARS_CARVE)) {
 			return super.useItemOn(stack, state, level, pos, player, hand, result);
 		} else if (level.isClientSide) {
-			return ItemInteractionResult.sidedSuccess(true);
+			return InteractionResult.SUCCESS;
 		} else {
 			Direction direction = result.getDirection();
 			Direction direction1 = direction.getAxis() == Direction.Axis.Y ? player.getDirection().getOpposite() : direction;
@@ -54,7 +54,7 @@ public class GloomgourdBlock extends PumpkinBlock {
 			stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 			level.gameEvent(player, GameEvent.SHEAR, pos);
 			player.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
-			return ItemInteractionResult.sidedSuccess(false);
+			return InteractionResult.SUCCESS;
 		}
 	}
 }

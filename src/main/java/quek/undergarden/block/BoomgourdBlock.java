@@ -2,10 +2,11 @@ package quek.undergarden.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -41,17 +42,17 @@ public class BoomgourdBlock extends TntBlock {
 	}
 
 	@Override
-	public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-		if (!level.isClientSide()) {
+	public void wasExploded(ServerLevel level, BlockPos pos, Explosion explosion) {
+		//if (!level.isClientSide()) {
 			Boomgourd boomgourd = new Boomgourd(level, (double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, explosion.getIndirectSourceEntity());
 			int fuse = boomgourd.getFuse();
 			boomgourd.setFuse((short) (level.getRandom().nextInt(fuse / 4) + fuse / 8));
 			level.addFreshEntity(boomgourd);
-		}
+		//}
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
 		if (!stack.is(Items.FLINT_AND_STEEL) && !stack.is(Items.FIRE_CHARGE) && !stack.is(UGItems.DITCHBULB_PASTE.get())) {
 			return super.useItemOn(stack, state, level, pos, player, hand, result);
 		} else {
@@ -67,7 +68,7 @@ public class BoomgourdBlock extends TntBlock {
 			}
 
 			player.awardStat(Stats.ITEM_USED.get(item));
-			return ItemInteractionResult.sidedSuccess(level.isClientSide);
+			return InteractionResult.SUCCESS;
 		}
 	}
 }

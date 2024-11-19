@@ -2,7 +2,6 @@ package quek.undergarden.item;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -10,11 +9,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.portal.PortalShape;
-import net.neoforged.neoforge.event.EventHooks;
-import quek.undergarden.block.portal.UndergardenPortalBlock;
 import quek.undergarden.block.portal.UndergardenPortalShape;
-import quek.undergarden.registry.UGBlocks;
 import quek.undergarden.registry.UGDimensions;
 import quek.undergarden.registry.UGSoundEvents;
 
@@ -36,9 +31,9 @@ public class CatalystItem extends Item {
 			BlockPos framePos = context.getClickedPos().relative(context.getClickedFace());
 			Optional<UndergardenPortalShape> optional = findPortalShape(context.getLevel(), framePos, shape -> shape.isValid() && shape.getPortalBlocks() == 0, Direction.Axis.X);
 			if (optional.isPresent()) {
-				optional.get().createPortalBlocks();
+				optional.get().createPortalBlocks(context.getLevel());
 				context.getLevel().playSound(context.getPlayer(), context.getClickedPos(), UGSoundEvents.UNDERGARDEN_PORTAL_ACTIVATE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-				return InteractionResult.sidedSuccess(context.getLevel().isClientSide());
+				return InteractionResult.SUCCESS;
 			}
 		}
 		return InteractionResult.FAIL;
