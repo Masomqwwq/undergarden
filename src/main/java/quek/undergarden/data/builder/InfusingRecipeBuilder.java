@@ -32,14 +32,14 @@ public class InfusingRecipeBuilder implements RecipeBuilder {
 	@Nullable
 	private String group;
 
-	public InfusingRecipeBuilder(RecipeCategory category, InfusingBookCategory bookCategory, ItemStack result, Ingredient ingredient, float experience, int infusingTime, boolean utheriumFuel) {
+	public InfusingRecipeBuilder(RecipeCategory category, InfusingBookCategory bookCategory, ItemStack result, Ingredient ingredient, float experience, int infusingTime, boolean isUtheriumFuel) {
 		this.category = category;
 		this.bookCategory = bookCategory;
 		this.result = result;
 		this.ingredient = ingredient;
 		this.experience = experience;
 		this.infusingTime = infusingTime;
-		this.utheriumFuel = utheriumFuel;
+		this.utheriumFuel = isUtheriumFuel;
 	}
 
 	public static InfusingRecipeBuilder infusing(Ingredient ingredient, RecipeCategory category, InfusingBookCategory bookCategory, ItemStack result, float experience, int infusingTime, boolean utheriumFuel) {

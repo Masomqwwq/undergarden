@@ -27,14 +27,14 @@ public class InfusingRecipe implements Recipe<InfuserRecipeInput> {
 	protected final int infusingTime;
 	protected final boolean utheriumFuel;
 
-	public InfusingRecipe(String group, InfusingBookCategory category, Ingredient ingredient, ItemStack result, float experience, int infusingTime, boolean fuelType) {
+	public InfusingRecipe(String group, InfusingBookCategory category, Ingredient ingredient, ItemStack result, float experience, int infusingTime, boolean isUtheriumFuel) {
 		this.category = category;
 		this.group = group;
 		this.ingredient = ingredient;
 		this.result = result;
 		this.experience = experience;
 		this.infusingTime = infusingTime;
-		this.utheriumFuel = fuelType;
+		this.utheriumFuel = isUtheriumFuel;
 	}
 
 	public InfusingBookCategory getCategory() {
@@ -132,8 +132,8 @@ public class InfusingRecipe implements Recipe<InfuserRecipeInput> {
 			ItemStack result = ItemStack.STREAM_CODEC.decode(buf);
 			float experience = buf.readFloat();
 			int infusingTime = buf.readInt();
-			boolean utheriumFuel = buf.readBoolean();
-			return new InfusingRecipe(group, category, ingredient, result, experience, infusingTime, utheriumFuel);
+			boolean isUtheriumFuel = buf.readBoolean();
+			return new InfusingRecipe(group, category, ingredient, result, experience, infusingTime, isUtheriumFuel);
 		}
 
 		private void toNetwork(RegistryFriendlyByteBuf buf, InfusingRecipe recipe) {

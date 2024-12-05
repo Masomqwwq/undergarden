@@ -21,20 +21,19 @@ import net.minecraft.world.item.crafting.Ingredient;
 import quek.undergarden.Undergarden;
 import quek.undergarden.recipe.InfusingRecipe;
 import quek.undergarden.registry.UGBlocks;
-import quek.undergarden.registry.UGItems;
+import quek.undergarden.registry.UGTags;
 
 public class InfusingJEIRecipeCategory implements IRecipeCategory<InfusingRecipe> {
 
 	private static final ResourceLocation INFUSER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Undergarden.MODID, "textures/gui/container/infuser/infuser.png");
-	private static final ResourceLocation SLOT_BLOCKED = ResourceLocation.fromNamespaceAndPath(Undergarden.MODID, "textures/gui/container/infuser/slot_blocked.png");
 	public static final RecipeType<InfusingRecipe> RECIPE_TYPE = RecipeType.create(Undergarden.MODID, "infusing", InfusingRecipe.class);
 
-	private final IDrawable background;
+	//private final IDrawable background;
 	private final IDrawable icon;
 	private final Component localizedName;
 
 	public InfusingJEIRecipeCategory(IGuiHelper guiHelper) {
-		this.background = guiHelper.createDrawable(INFUSER_TEXTURE, 25, 16, 126, 57);
+		//this.background = guiHelper.createDrawable(INFUSER_TEXTURE, 25, 16, 126, 57);
 		this.icon = guiHelper.createDrawableItemStack(new ItemStack(UGBlocks.INFUSER));
 		this.localizedName = Component.translatable("gui.undergarden.jei.category.infuser");
 	}
@@ -49,9 +48,19 @@ public class InfusingJEIRecipeCategory implements IRecipeCategory<InfusingRecipe
 		return this.localizedName;
 	}
 
-	@Override
+	/*@Override
 	public IDrawable getBackground() {
 		return this.background;
+	}*/
+
+	@Override
+	public int getWidth() {
+		return 126;
+	}
+
+	@Override
+	public int getHeight() {
+		return 57;
 	}
 
 	@Override
@@ -72,9 +81,9 @@ public class InfusingJEIRecipeCategory implements IRecipeCategory<InfusingRecipe
 		builder.addSlot(RecipeIngredientRole.INPUT, 55, 1).addIngredients(recipeIngredients.getFirst());
 
 		if (recipe.isUtheriumFuel()) {
-			builder.addSlot(RecipeIngredientRole.INPUT, 1, 37).addItemStack(new ItemStack(UGItems.UTHERIUM_CRYSTAL.get()));
+			builder.addSlot(RecipeIngredientRole.INPUT, 1, 37).addIngredients(Ingredient.of(UGTags.Items.INFUSER_UTHERIUM_FUELS));
 		} else {
-			builder.addSlot(RecipeIngredientRole.INPUT, 109, 37).addItemStack(new ItemStack(UGItems.ROGDORIUM_CRYSTAL.get()));
+			builder.addSlot(RecipeIngredientRole.INPUT, 109, 37).addIngredients(Ingredient.of(UGTags.Items.INFUSER_ROGDORIUM_FUELS));
 		}
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 55, 36).addItemStack(recipe.getResultItem(registryAccess));
@@ -82,12 +91,7 @@ public class InfusingJEIRecipeCategory implements IRecipeCategory<InfusingRecipe
 
 	@Override
 	public void draw(InfusingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-		if (recipe.isUtheriumFuel()) {
-			guiGraphics.blitSprite(SLOT_BLOCKED, 16, 16, 0, 0, 109, 37, 16, 16);
-		}
-		if (!recipe.isUtheriumFuel()) {
-			guiGraphics.blitSprite(SLOT_BLOCKED, 16, 16, 0, 0, 1, 37, 16, 16);
-		}
+		guiGraphics.blit(INFUSER_TEXTURE, 0, 0, 25, 16, getWidth(), getHeight());
 
 		drawExperience(recipe, guiGraphics);
 		drawCookTime(recipe, guiGraphics);

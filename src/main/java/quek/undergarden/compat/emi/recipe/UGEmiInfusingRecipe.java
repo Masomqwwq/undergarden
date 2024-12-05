@@ -21,7 +21,6 @@ import quek.undergarden.registry.UGTags;
 public class UGEmiInfusingRecipe extends BasicEmiRecipe {
 
 	private static final ResourceLocation INFUSER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Undergarden.MODID, "textures/gui/container/infuser/infuser.png");
-	private static final ResourceLocation SLOT_BLOCKED = ResourceLocation.fromNamespaceAndPath(Undergarden.MODID, "textures/gui/sprites/container/infuser/slot_blocked.png");
 
 	private final InfusingRecipe recipe;
 
@@ -52,10 +51,8 @@ public class UGEmiInfusingRecipe extends BasicEmiRecipe {
 
 		if (this.recipe.isUtheriumFuel()) {
 			widgets.addSlot(EmiIngredient.of(UGTags.Items.INFUSER_UTHERIUM_FUELS), 0, 36).drawBack(false);
-			widgets.addTexture(SLOT_BLOCKED, 108, 36, 16,16, 16, 16);
 		} else {
 			widgets.addSlot(EmiIngredient.of(UGTags.Items.INFUSER_ROGDORIUM_FUELS), 108, 36).drawBack(false);
-			widgets.addTexture(SLOT_BLOCKED, 0, 36, 16,16, 16, 16);
 		}
 
 		widgets.addSlot(outputs.getFirst(), 50, 31).drawBack(false).large(true).recipeContext(this);
