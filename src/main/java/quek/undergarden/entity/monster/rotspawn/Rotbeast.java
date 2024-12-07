@@ -18,7 +18,6 @@ public class Rotbeast extends RotspawnMonster {
 
 	public Rotbeast(EntityType<? extends Monster> type, Level level) {
 		super(type, level);
-		this.setInfectionDamage(0.3D);
 	}
 
 	public static AttributeSupplier.Builder registerAttributes() {

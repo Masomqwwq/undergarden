@@ -15,7 +15,6 @@ public class Rotwalker extends RotspawnMonster {
 
 	public Rotwalker(EntityType<? extends Monster> type, Level level) {
 		super(type, level);
-		this.setInfectionDamage(0.2D);
 	}
 
 	public static AttributeSupplier.Builder registerAttributes() {

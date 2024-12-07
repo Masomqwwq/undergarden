@@ -437,5 +437,6 @@ public class UndergardenCommonEvents {
 
 	public static void registerDataMaps(RegisterDataMapTypesEvent event) {
 		event.register(UGDataMaps.BIOME_LETHALITY);
+		event.register(UGDataMaps.ENTITY_LETHALITY);
 	}
 }

@@ -8,11 +8,8 @@ import net.neoforged.neoforge.common.data.DataMapProvider;
 import net.neoforged.neoforge.registries.datamaps.builtin.Compostable;
 import net.neoforged.neoforge.registries.datamaps.builtin.FurnaceFuel;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
-import quek.undergarden.datamap.BiomeLethality;
-import quek.undergarden.registry.UGBiomes;
-import quek.undergarden.registry.UGBlocks;
-import quek.undergarden.registry.UGDataMaps;
-import quek.undergarden.registry.UGItems;
+import quek.undergarden.datamap.UthericInfectionLethality;
+import quek.undergarden.registry.*;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -69,10 +66,16 @@ public class UGDataMapsProvider extends DataMapProvider {
 		var fuels = this.builder(NeoForgeDataMaps.FURNACE_FUELS);
 		fuels.add(UGItems.DITCHBULB_PASTE, new FurnaceFuel(800), false);
 
-		var lethalities = this.builder(UGDataMaps.BIOME_LETHALITY);
-		lethalities.add(UGBiomes.DEPTHS, new BiomeLethality(0.01F), false);
-		lethalities.add(UGBiomes.INFECTED_DEPTHS, new BiomeLethality(0.025F), false);
-		lethalities.add(UGBiomes.PUFF_MUSHROOM_FOREST, new BiomeLethality(0.01F), false);
+		var biomeLethalities = this.builder(UGDataMaps.BIOME_LETHALITY);
+		biomeLethalities.add(UGBiomes.DEPTHS, new UthericInfectionLethality(0.01F), false);
+		biomeLethalities.add(UGBiomes.INFECTED_DEPTHS, new UthericInfectionLethality(0.025F), false);
+		biomeLethalities.add(UGBiomes.PUFF_MUSHROOM_FOREST, new UthericInfectionLethality(0.01F), false);
+
+		var entityLethalities = this.builder(UGDataMaps.ENTITY_LETHALITY);
+		entityLethalities.add(UGEntityTypes.ROTLING, new UthericInfectionLethality(0.1F), false);
+		entityLethalities.add(UGEntityTypes.ROTWALKER, new UthericInfectionLethality(0.2F), false);
+		entityLethalities.add(UGEntityTypes.ROTBELCHER, new UthericInfectionLethality(0.2F), false);
+		entityLethalities.add(UGEntityTypes.ROTBEAST, new UthericInfectionLethality(0.3F), false);
 	}
 
 	private void addCompostable(DataMapProvider.Builder<Compostable, Item> compostableBuilder, ItemLike item, float chance) {
