@@ -99,6 +99,7 @@ public class UGItemTags extends ItemTagsProvider {
 		tag(ItemTags.CHEST_ARMOR).add(UGItems.CLOGGRUM_CHESTPLATE.get(), UGItems.FROSTSTEEL_CHESTPLATE.get(), UGItems.UTHERIUM_CHESTPLATE.get(), UGItems.ANCIENT_CHESTPLATE.get());
 		tag(ItemTags.LEG_ARMOR).add(UGItems.CLOGGRUM_LEGGINGS.get(), UGItems.FROSTSTEEL_LEGGINGS.get(), UGItems.UTHERIUM_LEGGINGS.get(), UGItems.ANCIENT_LEGGINGS.get());
 		tag(ItemTags.FOOT_ARMOR).add(UGItems.CLOGGRUM_BOOTS.get(), UGItems.FROSTSTEEL_BOOTS.get(), UGItems.UTHERIUM_BOOTS.get());
+		tag(ItemTags.MUSIC_DISCS).add(UGItems.MUSIC_DISC_LIMAX_MAXIMUS.get(), UGItems.MUSIC_DISC_GLOOMPER_ANTHEM.get(), UGItems.MUSIC_DISC_GLOOMPER_SECRET.get(), UGItems.MUSIC_DISC_MAMMOTH.get(), UGItems.MUSIC_DISC_RELICT.get());
 
 		//forge
 		tag(Tags.Items.BONES).add(UGItems.BRUTE_TUSK.get());
